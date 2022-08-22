@@ -3,6 +3,7 @@ import 'package:basic_ecommerce_sqflite/utils/routes/routes.dart';
 import 'package:basic_ecommerce_sqflite/view/home_page.dart';
 import 'package:basic_ecommerce_sqflite/view/login_page.dart';
 import 'package:basic_ecommerce_sqflite/view_model/auth.dart';
+import 'package:basic_ecommerce_sqflite/view_model/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => ProductViewModel()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

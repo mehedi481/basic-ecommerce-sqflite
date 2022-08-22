@@ -1,5 +1,4 @@
-
-class ProductModel{
+class ProductModel {
   static const String tableName = 'products';
   static const String colId = 'id';
   static const String colProductName = 'productName';
@@ -33,7 +32,7 @@ class ProductModel{
       colProductName: productName,
       colProductDesc: productDesc,
       colProductPrice: productPrice,
-      colProductPic: productPrice,
+      colProductPic: productPic,
     };
     if (id != null) {
       map[colId] = id;
