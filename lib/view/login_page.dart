@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
           .read<AuthProvider>()
           .auth(emailController.text.trim(), passwordController.text.trim());
 
-      Navigator.pushNamed(context, Routes.homePage);
+      Navigator.pushReplacementNamed(context, Routes.homePage);
     }
   }
 }
