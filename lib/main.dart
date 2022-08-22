@@ -1,3 +1,5 @@
+import 'package:basic_ecommerce_sqflite/utils/routes/route_name.dart';
+import 'package:basic_ecommerce_sqflite/utils/routes/routes.dart';
 import 'package:basic_ecommerce_sqflite/view/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: Routes.login,
+      onGenerateRoute: RouteGenerator.getRoute,
       home: HomePage(),
     );
   }
