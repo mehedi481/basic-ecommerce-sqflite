@@ -1,4 +1,7 @@
+import 'package:basic_ecommerce_sqflite/utils/routes/route_name.dart';
+import 'package:basic_ecommerce_sqflite/view_model/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -67,8 +70,12 @@ class _LoginPageState extends State<LoginPage> {
     var form = _key.currentState!;
     if (form.validate()) {
       form.save();
+
+      context
+          .read<AuthProvider>()
+          .auth(emailController.text.trim(), passwordController.text.trim());
+
+      Navigator.pushNamed(context, Routes.homePage);
     }
-    print(emailController.text);
-    print(passwordController.text);
   }
 }
