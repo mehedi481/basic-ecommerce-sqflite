@@ -1,5 +1,6 @@
 import 'package:basic_ecommerce_sqflite/model/product_model.dart';
 import 'package:basic_ecommerce_sqflite/resource/colorManager.dart';
+import 'package:basic_ecommerce_sqflite/utils/utils.dart';
 import 'package:basic_ecommerce_sqflite/view_model/product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,15 @@ class _AddProductState extends State<AddProduct> {
 
       context.read<ProductViewModel>().addProduct(_productModel);
       print(_productModel.toJson());
+
+      Utils.showMessage(
+        message: "Successfully Product added",
+        bgColor: Colors.green,
+      );
+
+      form.reset();
+      Navigator.pop(context);
+      Navigator.of(context).pop();
     }
   }
 
