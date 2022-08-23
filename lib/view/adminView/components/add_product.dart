@@ -50,7 +50,7 @@ class _AddProductState extends State<AddProduct> {
     if (form.validate()) {
       form.save();
 
-      context.read<ProductViewModel>().addProduct(_productModel);
+      context.read<ProductViewModel>().insertData(_productModel);
       print(_productModel.toJson());
 
       Utils.showMessage(
