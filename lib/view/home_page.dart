@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:basic_ecommerce_sqflite/resource/colorManager.dart';
 import 'package:basic_ecommerce_sqflite/utils/routes/route_name.dart';
 import 'package:basic_ecommerce_sqflite/view/adminView/admin_drawer.dart';
@@ -46,8 +48,18 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                   itemCount: value.productList.length,
                   itemBuilder: ((context, index) {
-                    return Text(
-                        "${value.productList[index].productName!} ${value.productList[index].productPrice!}");
+                    return Column(
+                      children: [
+                        Text("${value.productList[index].productName!}"),
+                        value.productList[index].productPic == null
+                            ? Container()
+                            : Image.file(
+                                File(value.productList[index].productPic!),
+                                height: 200,
+                                width: 200,
+                              )
+                      ],
+                    );
                   }),
                 ),
               );

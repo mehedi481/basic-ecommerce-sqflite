@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:basic_ecommerce_sqflite/model/product_model.dart';
 import 'package:basic_ecommerce_sqflite/resource/colorManager.dart';
 import 'package:basic_ecommerce_sqflite/utils/utils.dart';
 import 'package:basic_ecommerce_sqflite/view_model/product_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddProduct extends StatefulWidget {
@@ -15,6 +19,21 @@ class AddProduct extends StatefulWidget {
 class _AddProductState extends State<AddProduct> {
   final _key = GlobalKey<FormState>();
   ProductModel _productModel = ProductModel();
+  XFile? image;
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      final String imageTemp = image.path;
+      setState(() {
+        _productModel.productPic = imageTemp;
+      });
+    } on PlatformException catch (e) {
+      print("Faild to pick an Image/Photo");
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +42,7 @@ class _AddProductState extends State<AddProduct> {
         backgroundColor: ColorManager.primaryColor,
         title: const Text("Add Product"),
       ),
-      body: Column(
+      body: ListView(
         children: [
           _addProductForm(),
           const SizedBox(
@@ -110,16 +129,20 @@ class _AddProductState extends State<AddProduct> {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: double.infinity,
                     width: double.infinity,
-                    child: FlutterLogo(),
+                    child: _productModel.productPic != null
+                        ? Image.file(File(_productModel.productPic!))
+                        : const FlutterLogo(),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await pickImage(ImageSource.camera);
+                        },
                         icon: const Icon(
                           Icons.camera,
                           size: 35,
@@ -129,7 +152,9 @@ class _AddProductState extends State<AddProduct> {
                         width: 50,
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await pickImage(ImageSource.gallery);
+                        },
                         icon: const Icon(
                           Icons.photo,
                           size: 35,
