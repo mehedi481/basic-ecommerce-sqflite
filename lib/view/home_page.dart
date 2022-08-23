@@ -38,15 +38,19 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: authProvider.isAdmin ? const AdminDrawer() : const UserDrawer(),
       body: Consumer<ProductViewModel>(builder: (context, value, _) {
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: ListView.builder(
-            itemCount: value.productList.length,
-            itemBuilder: ((context, index) {
-              return Text(value.productList[index].productName!);
-            }),
-          ),
-        );
+        return value.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: ListView.builder(
+                  itemCount: value.productList.length,
+                  itemBuilder: ((context, index) {
+                    return Text(
+                        "${value.productList[index].productName!} ${value.productList[index].productPrice!}");
+                  }),
+                ),
+              );
       }),
     );
   }
