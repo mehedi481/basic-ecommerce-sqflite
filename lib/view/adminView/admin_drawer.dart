@@ -20,7 +20,9 @@ class AdminDrawer extends StatelessWidget {
         ),
         ListTile(
           title: const Text("All Products"),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, Routes.allProducts);
+          },
         ),
         ListTile(
           title: const Text("Add Product"),

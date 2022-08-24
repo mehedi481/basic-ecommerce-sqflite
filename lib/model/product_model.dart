@@ -23,7 +23,7 @@ class ProductModel {
     id = json[colId];
     productName = json[colProductName];
     productDesc = json[colProductDesc];
-    productPrice = json[colProductPrice];
+    productPrice = json[colProductPrice].toString();
     productPic = json[colProductPic];
   }
 
@@ -31,7 +31,7 @@ class ProductModel {
     var map = <String, dynamic>{
       colProductName: productName,
       colProductDesc: productDesc,
-      colProductPrice: productPrice,
+      colProductPrice: productPrice.toString(),
       colProductPic: productPic,
     };
     if (id != null) {
