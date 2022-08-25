@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:basic_ecommerce_sqflite/resource/colorManager.dart';
+import 'package:basic_ecommerce_sqflite/utils/routes/route_name.dart';
 import 'package:basic_ecommerce_sqflite/utils/utils.dart';
+import 'package:basic_ecommerce_sqflite/view/adminView/components/add_product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,8 +57,23 @@ class AllProducts extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.edit),
+                                  onPressed: () {
+                                    // This is for update product
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AddProduct(
+                                          isUpdate: true,
+                                          updateProductModel:
+                                              value.productList[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.green,
+                                  ),
                                 ),
                                 IconButton(
                                   onPressed: () {
@@ -67,7 +84,10 @@ class AllProducts extends StatelessWidget {
                                     print(
                                         value.productList[index].productPrice);
                                   },
-                                  icon: const Icon(Icons.delete),
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               ],
                             ),

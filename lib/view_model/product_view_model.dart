@@ -13,7 +13,7 @@ class ProductViewModel with ChangeNotifier {
   //   _productList.add(productModel);
   //   notifyListeners();
   // }
-  
+
   void init() async {
     dbHelper = DatabaseHelper.instance;
     loading(true);
@@ -28,6 +28,7 @@ class ProductViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  // fetch
   Future<List<ProductModel>> getProductFromDB() async {
     List<Map<String, dynamic>> products =
         await dbHelper.fetchData(ProductModel.tableName);
@@ -36,7 +37,8 @@ class ProductViewModel with ChangeNotifier {
         ? []
         : products.map((e) => ProductModel.fromMap(e)).toList();
   }
-  // insert data 
+
+  // insert
   void insertData(ProductModel productModel) async {
     await dbHelper.insertData(ProductModel.tableName, productModel);
     loading(true);
@@ -44,7 +46,15 @@ class ProductViewModel with ChangeNotifier {
     loading(false);
   }
 
-  // delete data
+  // update
+  void updateData(ProductModel productModel) async {
+    await dbHelper.updateData(ProductModel.tableName, productModel);
+    loading(true);
+    _productList = await getProductFromDB();
+    loading(false);
+  }
+
+  // delete
   void deleteData(ProductModel productModel) async {
     await dbHelper.deleteData(ProductModel.tableName, productModel);
     loading(true);

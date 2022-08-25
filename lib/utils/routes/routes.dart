@@ -1,3 +1,4 @@
+import 'package:basic_ecommerce_sqflite/model/product_model.dart';
 import 'package:basic_ecommerce_sqflite/resource/app_strings.dart';
 import 'package:basic_ecommerce_sqflite/utils/routes/route_name.dart';
 import 'package:basic_ecommerce_sqflite/view/adminView/components/add_product.dart';
@@ -14,9 +15,13 @@ class RouteGenerator {
       case Routes.homePage:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case Routes.addProduct:
-        return MaterialPageRoute(builder: (_) => const AddProduct());
+        return MaterialPageRoute(
+          builder: (_) => AddProduct(
+            isUpdate: false, updateProductModel: ProductModel(),
+          ),
+        );
       case Routes.allProducts:
-        return MaterialPageRoute(builder: (_) =>  AllProducts());
+        return MaterialPageRoute(builder: (_) => AllProducts());
       default:
         return undefainedRoute();
     }

@@ -10,16 +10,39 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
-
+  AddProduct(
+      {Key? key, required this.isUpdate, required this.updateProductModel})
+      : super(key: key);
+  bool isUpdate = false;
+  final ProductModel updateProductModel;
   @override
   State<AddProduct> createState() => _AddProductState();
 }
 
 class _AddProductState extends State<AddProduct> {
   final _key = GlobalKey<FormState>();
-  ProductModel _productModel = ProductModel();
+  late ProductModel _productModel;
+  final productNameController = TextEditingController();
+  final productDesController = TextEditingController();
+  final productPriceController = TextEditingController();
   XFile? image;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isUpdate) {
+      _productModel = widget.updateProductModel;
+      productNameController.text = _productModel.productName!;
+      productDesController.text = _productModel.productDesc!;
+      productPriceController.text = _productModel.productPrice!;
+      _productModel.productPic = _productModel.productPic;
+    } else {
+      _productModel = ProductModel();
+    }
+    print("isUpdate ${widget.isUpdate}");
+    print("init ${_productModel.id}");
+  }
+
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -33,14 +56,15 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: ColorManager.primaryColor,
-        title: const Text("Add Product"),
+        title: widget.isUpdate
+            ? const Text("Update Product")
+            : const Text("Add Product"),
       ),
       body: ListView(
         children: [
@@ -53,9 +77,9 @@ class _AddProductState extends State<AddProduct> {
             child: MaterialButton(
               onPressed: _addProduct,
               color: ColorManager.primaryColor,
-              child: const Text(
-                "Add Product",
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                widget.isUpdate ? "Update Product" : "Add Product",
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -69,17 +93,29 @@ class _AddProductState extends State<AddProduct> {
     if (form.validate()) {
       form.save();
 
-      context.read<ProductViewModel>().insertData(_productModel);
-      print(_productModel.toJson());
-
-      Utils.showMessage(
-        message: "Successfully Product added",
-        bgColor: Colors.green,
-      );
-
-      form.reset();
-      Navigator.pop(context);
-      Navigator.of(context).pop();
+      if (_productModel.id == null) {
+        context.read<ProductViewModel>().insertData(_productModel);
+        print(_productModel.toJson());
+        form.reset();
+        Navigator.pop(context);
+        Navigator.of(context).pop();
+        Utils.showMessage(
+          message: "Successfully Product Added",
+          bgColor: Colors.green,
+        );
+      } else {
+        context.read<ProductViewModel>().updateData(_productModel);
+        productNameController.clear();
+        productDesController.clear();
+        productPriceController.clear();
+        _productModel.id == null;
+        Navigator.pop(context);
+        Utils.showMessage(
+          message: "Successfully Product Updated",
+          bgColor: Colors.green,
+        );
+        print(_productModel.toJson());
+      }
     }
   }
 
@@ -91,6 +127,7 @@ class _AddProductState extends State<AddProduct> {
         child: Column(
           children: [
             TextFormField(
+              controller: productNameController,
               decoration: const InputDecoration(labelText: "Product Name"),
               validator: (value) {
                 return value!.isEmpty ? "* This field is required" : null;
@@ -100,6 +137,7 @@ class _AddProductState extends State<AddProduct> {
               },
             ),
             TextFormField(
+              controller: productDesController,
               maxLines: 5,
               decoration:
                   const InputDecoration(labelText: "Product Description"),
@@ -111,6 +149,7 @@ class _AddProductState extends State<AddProduct> {
               },
             ),
             TextFormField(
+              controller: productPriceController,
               decoration: const InputDecoration(labelText: "Product Price"),
               validator: (value) {
                 return value!.isEmpty ? "* This field is required" : null;
