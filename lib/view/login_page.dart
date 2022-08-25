@@ -71,11 +71,11 @@ class _LoginPageState extends State<LoginPage> {
     if (form.validate()) {
       form.save();
 
-      context
-          .read<AuthProvider>()
-          .auth(emailController.text.trim(), passwordController.text.trim());
-
-      Navigator.pushReplacementNamed(context, Routes.homePage);
+      context.read<AuthProvider>().auth(
+            context,
+            emailController.text.trim(),
+            passwordController.text.trim(),
+          );
     }
   }
 }
