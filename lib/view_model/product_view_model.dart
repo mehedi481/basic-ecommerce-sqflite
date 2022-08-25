@@ -36,12 +36,19 @@ class ProductViewModel with ChangeNotifier {
         ? []
         : products.map((e) => ProductModel.fromMap(e)).toList();
   }
-
+  // insert data 
   void insertData(ProductModel productModel) async {
     await dbHelper.insertData(ProductModel.tableName, productModel);
     loading(true);
     _productList = await getProductFromDB();
-    notifyListeners();
+    loading(false);
+  }
+
+  // delete data
+  void deleteData(ProductModel productModel) async {
+    await dbHelper.deleteData(ProductModel.tableName, productModel);
+    loading(true);
+    _productList = await getProductFromDB();
     loading(false);
   }
 }
