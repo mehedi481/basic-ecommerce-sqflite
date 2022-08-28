@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:basic_ecommerce_sqflite/resource/colorManager.dart';
 import 'package:basic_ecommerce_sqflite/utils/routes/route_name.dart';
 import 'package:basic_ecommerce_sqflite/view/adminView/admin_drawer.dart';
+import 'package:basic_ecommerce_sqflite/view/adminView/components/add_product.dart';
 import 'package:basic_ecommerce_sqflite/view/clientView/user_drawer.dart';
 import 'package:basic_ecommerce_sqflite/view_model/auth.dart';
 import 'package:basic_ecommerce_sqflite/view_model/product_view_model.dart';
@@ -94,13 +95,30 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ],
                                 ),
-                                Visibility(
-                                  visible: !authProvider.isAdmin,
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.shopping_cart),
-                                  ),
-                                ),
+                                authProvider.isAdmin
+                                    ? IconButton(
+                                        onPressed: () {
+                                          // This is for update product
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => AddProduct(
+                                                isUpdate: true,
+                                                updateProductModel:
+                                                    value.productList[index],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit_note,
+                                          color: Colors.cyan,
+                                        ),
+                                      )
+                                    : IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.shopping_cart),
+                                      ),
                               ],
                             ),
                           ),
