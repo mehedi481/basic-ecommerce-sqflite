@@ -45,23 +45,49 @@ class _HomePageState extends State<HomePage> {
             : Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: ListView.builder(
-                  itemCount: value.productList.length,
-                  itemBuilder: ((context, index) {
-                    return Column(
-                      children: [
-                        Text("${value.productList[index].productName!}"),
-                        value.productList[index].productPic == null
-                            ? Container()
-                            : Image.file(
-                                File(value.productList[index].productPic!),
-                                height: 200,
-                                width: 200,
-                              )
-                      ],
-                    );
-                  }),
+                height: double.infinity,
+                width: double.infinity,
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  children: List.generate(
+                    value.productList.length,
+                    (index) => Container(
+                      height: 120,
+                      width: 100,
+                      color: Colors.blue,
+                      child: Stack(
+                        children: [
+                          value.productList[index].productPic == null
+                              ? const FlutterLogo()
+                              : Image.file(
+                                  File(value.productList[index].productPic!),
+                                  fit: BoxFit.fill,
+                                ),
+                          Text(value.productList[index].productName!),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+                // child: ListView.builder(
+                //   itemCount: value.productList.length,
+                //   itemBuilder: ((context, index) {
+                //     return Column(
+                //       children: [
+                //         Text("${value.productList[index].productName!}"),
+                //         value.productList[index].productPic == null
+                //             ? Container()
+                //             : Image.file(
+                //                 File(value.productList[index].productPic!),
+                //                 height: 200,
+                //                 width: 200,
+                //               )
+                //       ],
+                //     );
+                //   }),
+                // ),
               );
       }),
     );
