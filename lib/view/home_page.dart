@@ -54,18 +54,56 @@ class _HomePageState extends State<HomePage> {
                   children: List.generate(
                     value.productList.length,
                     (index) => Container(
-                      height: 120,
-                      width: 100,
-                      color: Colors.blue,
-                      child: Stack(
+                      color: ColorManager.primaryColor!.withOpacity(0.5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          value.productList[index].productPic == null
-                              ? const FlutterLogo()
-                              : Image.file(
-                                  File(value.productList[index].productPic!),
-                                  fit: BoxFit.fill,
+                          SizedBox(
+                            height: 105,
+                            width: double.infinity,
+                            child: value.productList[index].productPic == null
+                                ? const FlutterLogo()
+                                : Image.file(
+                                    File(value.productList[index].productPic!),
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 5.0,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Name: ${value.productList[index].productName!}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Price : \$ ${value.productList[index].productPrice!}",
+                                    ),
+                                  ],
                                 ),
-                          Text(value.productList[index].productName!),
+                                Visibility(
+                                  visible: !authProvider.isAdmin,
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.shopping_cart),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
